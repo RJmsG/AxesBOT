@@ -1,5 +1,6 @@
 from mod import *
 import mod
+import sys
 
 profanity.load_censor_words()
 usr=input('username:')
@@ -64,6 +65,7 @@ Bot information:
       c.send_msg("Saved session data!")
     elif args[1] == "say":
       del args[0]
+      del args[0]
       c.send_msg(' '.join(args))
     elif args[1] == "spam":
       c.send_msg(f'@{msg["u"]} -99999 social credit')
@@ -78,13 +80,14 @@ Bot information:
       a = choice(memes).split("/")
       c.send_msg(f'[{a[len(a) - 1]}: '+'/'.join(a)+']')
     elif args[1] == "newmeme":
+      print('newmeme')
       a = args[2].split('/')
       print(a)
       if a[2] in whitelist:
         memes.append(args[2])
         c.send_msg("Added!")
       else:
-        c.send_msg("Error: You're image hosting sight was not on the whitelist! This bot is designed to display images on Meower svelte.")
+        c.send_msg("Error: You're image hosting sight was not on the whitelist! This bot is designed to display images on Meower svelte. (it probably wont display on bettermeower though :skull:)")
     elif args[1] == "wait":
       c.send_msg('plase wait. your request will start shortly...')
       sleep(5)
@@ -99,7 +102,14 @@ Bot information:
         print('not in ulist')
       c.send_msg('User now has 1 more vote!')
     elif args[1] == 'votes':
+      if msg['u'] in ulist:
+        c.send_msg(f"You currently have: {votes[ulist.index(msg['u'])]} votes.")
+      else:
+        ulist.append(msg['u'])
+        votes.append('0')
+        c.send_msg(f"Welcome to the vote buiseness, you currently have: {votes[ulist.index(msg['u'])]} votes.")
       print('view votes')
+      """
       if len(args) < 3:
         if msg[u] in ulist:
           c.send_msg(f"You currently have: {votes[ulist.index(msg['u'])]} votes.")
@@ -108,17 +118,46 @@ Bot information:
           ulist.append(msg['u'])
           votes.append('0')
           c.send_msg("You dont have any votes yet. Use the vote command to support other people! Be careful, you can't unvote.")
+      elif args[3] in ulist:
+        c.send_msg(f"User @{args[3]} currently has {votes[ulist.index(args[3])]} votes.")
       else:
-        if args[3] in ulist:
-          c.send_msg(f"User @{args[3]} currently has {votes[ulist.index(msg['u'])]} votes.")
-        else:
-          c.send_msg('That user isn\'t in the vote buisness!')
+        c.send_msg('That user isn\'t in the vote buisness!')
+    """
     elif args[1] == 'user':
       c.send_msg('That command doesn\'t exist.. YET...')
     elif args[1] == 'why':
       c.send_msg('"Why" is a common question to ask when your computer stops working. Learn more at')
     elif args[1] == 'tip':
       c.send_msg('Heres a tip: Get a life')
+    elif args[1] == 'quit':
+      if msg['u'] in admin:
+        c.send_msg('Preparing to shut down...')
+        file = open('memes','w')
+        file.writelines('\n'.join(mod.memes))
+        file.close()
+        file = open('users','w')
+        file.writelines('\n'.join(mod.ulist))
+        file.close()
+        file = open('votes','w')
+        file.writelines('\n'.join(mod.votes))
+        file.close()
+        sleep(1)
+        c.send_msg("Saved session data!")
+        sleep(1)
+        c.send_msg("Bye mortals.")
+        sys.exit(0)
+      else:
+        c.send_msg(f"@{msg['u']} You dont have permission to do that lmao")
+    elif args[1] == 'CLEAR':
+      if msg['u'] in admin:
+        c.send_msg('CLEARING ALL DATA...')
+        mod.memes = []
+        mod.ulist = []
+        mod.votes = []
+        sleep(1)
+        c.send_msg('The process isn\'t complete. To fully delete all the data, use the save command.')
+      else:
+        c.send_msg(f"@{msg['u']} You dont have permission to do that lmao")
     else:
       c.send_msg(f'@{msg[u]} Wdym???')
 def on_login():

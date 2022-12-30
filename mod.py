@@ -17,7 +17,7 @@ tips = [
   'Need help? Try the-',
   'Tired of using a boring prefix? Try the "run" command!','Feel like giving someone a reason to be happy in their boring,useless life? Use the "vote" command to make their meaningless day!'
 ]
-whitelist = ['u.cubeupload.com']
+whitelist = ['u.cubeupload.com','i.ibb.co','cdn.discordapp.com','go.meower.org','cubeupload.com','media.tenor.com','tenor.com','c.tenor.com','uploads.scratch.mit.edu','assets.scratch.mit.edu']
 file = open('memes', 'r')
 memes = ''.join(file.readlines()).split('\n')
 file.close()
@@ -27,6 +27,7 @@ file.close()
 file = open('votes', 'r')
 votes = ''.join(file.readlines()).split('\n')
 file.close()
+admin = ['AXEstudios','axethegreat','tnix','cat','silvxrcat','MikeDEV']
 http_status = [
   {
     "status": 100,
