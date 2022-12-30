@@ -19,6 +19,11 @@ def on_raw_msg(msg, _):
         return
 
     print(f"args: {args}")
+    """
+    if not msg[u] in ulist:
+      ulist.append(msg[u])
+      votes.append('0')
+    """
     if args[1] == 'run':
       del args[0]
     elif args[1].lower() == 'helpme':
@@ -32,7 +37,7 @@ Hey, {a}
 Bot information:
   Owned by @AXEstudios
   Bot lib: MeowerBot.py version 1.4.2 (cl3)
-  Hosting Platform/src: yo mama
+  Hosting Platform/src: https://replit.com/@AXEstudios/AxesBOT
   Morph status: ???
 """)
     elif args[1] == "world-status":
@@ -48,9 +53,15 @@ Bot information:
         )
     elif args[1] == "save":
       file = open('memes','w')
-      file.writelines(mod.memes)
+      file.writelines('\n'.join(mod.memes))
       file.close()
-      
+      file = open('users','w')
+      file.writelines('\n'.join(mod.ulist))
+      file.close()
+      file = open('votes','w')
+      file.writelines('\n'.join(mod.votes))
+      file.close()
+      c.send_msg("Saved session data!")
     elif args[1] == "say":
       del args[0]
       c.send_msg(' '.join(args))
@@ -63,11 +74,14 @@ Bot information:
       c.send_msg('Why? Why should I?')
       """
     elif args[1] == "meme":
-      a = random.choice(memes).split(':')
-      c.send_msg(f'[{a[0]}: {a[1]}]')
+      c.send_msg('meming...')
+      a = choice(memes).split("/")
+      c.send_msg(f'[{a[len(a) - 1]}: '+'/'.join(a)+']')
     elif args[1] == "newmeme":
-      if args[2][0:23] in whitelist:
-        memes.append(f"{args[3]}: {args[2]}")
+      a = args[2].split('/')
+      print(a)
+      if a[2] in whitelist:
+        memes.append(args[2])
         c.send_msg("Added!")
       else:
         c.send_msg("Error: You're image hosting sight was not on the whitelist! This bot is designed to display images on Meower svelte.")
@@ -75,7 +89,38 @@ Bot information:
       c.send_msg('plase wait. your request will start shortly...')
       sleep(5)
       c.send_msg('Alright, I\'m ready to-')
-
+    elif args[1] == "vote":
+      print('Vote user')
+      if args[2] in ulist:
+        votes[ulist.index(args[2])] = str(int(votes[ulist.index(args[2])]) + 1)
+      else:
+        ulist.append(args[2])
+        votes.append('1')
+        print('not in ulist')
+      c.send_msg('User now has 1 more vote!')
+    elif args[1] == 'votes':
+      print('view votes')
+      if len(args) < 3:
+        if msg[u] in ulist:
+          c.send_msg(f"You currently have: {votes[ulist.index(msg['u'])]} votes.")
+        else:
+          c.send_msg("Welcome to the Vote buisenes!")
+          ulist.append(msg['u'])
+          votes.append('0')
+          c.send_msg("You dont have any votes yet. Use the vote command to support other people! Be careful, you can't unvote.")
+      else:
+        if args[3] in ulist:
+          c.send_msg(f"User @{args[3]} currently has {votes[ulist.index(msg['u'])]} votes.")
+        else:
+          c.send_msg('That user isn\'t in the vote buisness!')
+    elif args[1] == 'user':
+      c.send_msg('That command doesn\'t exist.. YET...')
+    elif args[1] == 'why':
+      c.send_msg('"Why" is a common question to ask when your computer stops working. Learn more at')
+    elif args[1] == 'tip':
+      c.send_msg('Heres a tip: Get a life')
+    else:
+      c.send_msg(f'@{msg[u]} Wdym???')
 def on_login():
     if len(sys.argv) >= 2:
         print("--before start msg--")
