@@ -1,7 +1,7 @@
 from MeowerBot import Client
 from requests import get, post
 from os import (environ as env, system as run, getpid as pid)
-
+from time import sleep
 from better_profanity import profanity
 import sys
 import json
@@ -9,7 +9,11 @@ from random import randint, choice
 #import keepalive
 
 prefix = 'Hey,'
-commands = []
+commands = ['readthedocs','say','spam','WorldPopulation','save']
+whitelist = ['https://u.cubeupload.com']
+file = open('memes','r')
+memes = ''.join(file.readlines()).split('\n')
+file.close()
 http_status = [
     {
         "status": 100,
