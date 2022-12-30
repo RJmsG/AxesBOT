@@ -9,7 +9,8 @@ from random import randint, choice
 #import keepalive
 
 prefix = 'Hey,'
-commands = ['readthedocs','say','spam','WorldPopulation','save']
+commands = ['newmeme','meme','inform','say','spam','world-status','save','run','wait']
+tips = ['Bored? Try the new "meme" command!','Are you a nerd looking for the bots specs? Try the "inform" command!','Need help? Try the-','Tired of using a boring prefix? Try the "run" command!']
 whitelist = ['https://u.cubeupload.com']
 file = open('memes','r')
 memes = ''.join(file.readlines()).split('\n')

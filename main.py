@@ -19,12 +19,15 @@ def on_raw_msg(msg, _):
         return
 
     print(f"args: {args}")
-    if args[1].lower() == 'helpme':
-      a = '\n'+'\nHey, '.join(commands)
+    if args[1] == 'run':
+      del args[0]
+    elif args[1].lower() == 'helpme':
+      a = '\nHey, '.join(commands)
       c.send_msg(f"""
-Commands: {a}
+Commands: [TIP: {choice(tips)}]
+Hey, {a}
       """)
-    elif args[1].lower() == "readthedocs":
+    elif args[1].lower() == "inform":
         c.send_msg("""
 Bot information:
   Owned by @AXEstudios
@@ -32,7 +35,7 @@ Bot information:
   Hosting Platform/src: yo mama
   Morph status: ???
 """)
-    elif args[1] == "WorldPopulation":
+    elif args[1] == "world-status":
         req = get("https://api.meower.org/statistics")
         if not req.status_code == 200:
             print(req.text)
@@ -68,6 +71,10 @@ Bot information:
         c.send_msg("Added!")
       else:
         c.send_msg("Error: You're image hosting sight was not on the whitelist! This bot is designed to display images on Meower svelte.")
+    elif args[1] == "wait":
+      c.send_msg('plase wait. your request will start shortly...')
+      sleep(5)
+      c.send_msg('Alright, I\'m ready to-')
 
 def on_login():
     if len(sys.argv) >= 2:
